@@ -35,9 +35,9 @@ open class MBPhotoPicker: NSObject {
   
   open var disableEntitlements: Bool = false
   
-  open var cameraDevice: UIImagePickerController.CameraDevice = .rear
+    open var cameraDevice: UIImagePickerController.CameraDevice = .rear
   
-  open var cameraFlashMode: UIImagePickerController.CameraFlashMode = .auto
+    open var cameraFlashMode: UIImagePickerController.CameraFlashMode = .auto
   
   open var resizeImage: CGSize?
   
@@ -181,7 +181,7 @@ open class MBPhotoPicker: NSObject {
   internal weak var controller: UIViewController?
   
   var imagePicker: UIImagePickerController!
-  func presentImagePicker(_ sourceType: UIImagePickerController.SourceType, topController: UIViewController!) {
+    func presentImagePicker(_ sourceType: UIImagePickerController.SourceType, topController: UIViewController!) {
     imagePicker = UIImagePickerController()
     imagePicker.sourceType = sourceType
     imagePicker.delegate = self
@@ -234,14 +234,13 @@ extension MBPhotoPicker: UIImagePickerControllerDelegate, UINavigationController
     }
   }
   
-  public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    picker.dismiss(animated: true, completion: {
-        if let image = info[UIImagePickerController.InfoKey.originalImage.rawValue] {
-            self.photoHandler(image as? UIImage)
-        } else {
-            self.onError?(.other)
-        }
-    })
+  public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    if let image = info[.originalImage] {
+      self.photoHandler(image as! UIImage)
+    } else {
+      self.onError?(.other)
+    }
+    picker.dismiss(animated: true, completion: nil)
     self.popoverController = nil
   }
   
